@@ -8,54 +8,90 @@
 :root {
     --bg-color: #e1e1e1;
     --text-color: #222;
-    --header-bg: #000;
     --header-color: #fbcf2f;
-    --tagline-color: #aaaaaa;
-    --article-bg: #fff;
-    --article-border: #999;
-    --footer-bg: #000;
-    --footer-color: #fff;
     --link-color: #0066cc;
     --link-hover: #004499;
 }
 body.dark-mode {
     --bg-color: #1e1e1e;
     --text-color: #e0e0e0;
-    --header-bg: #111;
     --header-color: #fbcf2f;
-    --tagline-color: #cccccc;
-    --article-bg: #222;
-    --article-border: #555;
-    --footer-bg: #111;
-    --footer-color: #f0f0f0;
     --link-color: #66aaff;
     --link-hover: #3399ff;
 }
-
 body {
     font-family: Arial, sans-serif;
     background: var(--bg-color);
     color: var(--text-color);
     margin:0; padding:0;
 }
-header {
+
+/* Banner */
+.banner-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+.banner-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.header-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(0,0,0,0.3);
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+nav a {
+    color: var(--header-color);
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+nav a:hover { color: var(--link-hover); }
+
+/* Layout */
+main { width:100%; display:flex; justify-content:center; margin-top:30px; }
+.container { display:flex; gap:20px; width:100%; max-width:1200px; padding:0 20px; }
+.main-content { flex:2; min-width:60%; }
+.sidebar { flex:1; min-width:30%; }
+article { background: #fff; padding:20px; margin-bottom:20px; border-radius:6px; border:2px solid #999; }
+h2 { color:#000; }
+body.dark-mode h2 { color:#fff; }
+
+#forecast-text {
+    white-space: normal;
+    line-height:1.5;
+    font-family: monospace;
+    background: #fff;
+    padding:15px;
+    border-radius:5px;
+    border:1px solid #999;
+    max-height:700px;
+    overflow-y:auto;
+}
+#outlook-map {
+    width:100%;
+    max-width:600px;
+    border:2px solid #999;
+    border-radius:6px;
+}
+
+footer {
+    background:#000;
+    color:#fff;
+    text-align:center;
+    padding:20px;
     display:flex;
     flex-direction:column;
     align-items:center;
-    background: var(--header-bg);
-    color: var(--header-color);
-    padding:20px;
+    gap:10px;
 }
-.header-top {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    width:100%;
-    max-width:1200px;
-}
-.header-left h1 { margin:0; font-size:2rem; color: var(--header-color); }
-.header-left .tagline { margin-top:5px; font-size:0.9rem; color: var(--tagline-color); }
-.header-right .logo { height:60px; width:auto; }
 #mode-toggle {
     background:none;
     border:2px solid var(--header-color);
@@ -65,63 +101,11 @@ header {
     font-size:0.9rem;
     border-radius:4px;
 }
-#mode-toggle:hover { background: var(--header-color); color: var(--header-bg); }
-
-nav { margin-top:15px; text-align:center; }
-nav a { color: var(--header-color); text-decoration:none; margin:0 15px; font-weight:bold; }
-nav a:hover { color: var(--link-hover); }
-
-main { width:100%; display:flex; justify-content:center; margin-top:30px; }
-.container {
-    display:flex;
-    gap:20px;
-    width:100%;
-    max-width:1200px;
-    padding:0 20px;
-}
-.main-content { flex:2; min-width:60%; }
-.sidebar { flex:1; min-width:30%; }
-
-article {
-    background: var(--article-bg);
-    padding:20px;
-    margin-bottom:20px;
-    border:2px solid var(--article-border);
-    border-radius:6px;
-}
-
-h2 { color:#000; }
-body.dark-mode h2 { color:#fff; }
-
-#forecast-text {
-    white-space: normal;
-    line-height:1.5;
-    font-family: monospace;
-    background: var(--article-bg);
-    padding:15px;
-    border-radius:5px;
-    border:1px solid var(--article-border);
-    max-height:700px;
-    overflow-y:auto;
-}
-
-#outlook-map {
-    width:100%;
-    max-width:600px;
-    border:2px solid var(--article-border);
-    border-radius:6px;
-}
-
-footer {
-    background: var(--footer-bg);
-    color: var(--footer-color);
-    text-align:center;
-    padding:15px;
-}
+#mode-toggle:hover { background: var(--header-color); color:#000; }
 
 @media(max-width:900px){
-    .header-top{flex-direction:column;align-items:center;}
-    nav{margin-top:10px;}
+    .header-overlay{flex-direction:column;align-items:center;}
+    nav{margin-top:5px;}
     .container{flex-direction:column;}
     .main-content, .sidebar{min-width:100%;}
 }
@@ -130,27 +114,22 @@ footer {
 <body>
 
 <header>
-    <div class="header-top">
-        <div class="header-left">
-            <h1>MesoOne</h1>
-            <p class="tagline">Severe weather interception, research and alerts.</p>
-        </div>
-        <div class="header-right">
-            <img src="MesoOneLogo.png" alt="Tornado Tracker Logo" class="logo">
-            <button id="mode-toggle">Toggle Dark Mode</button>
+    <div class="banner-container">
+        <img src="MesoOneBanner2.png" alt="MesoOne Banner" class="banner-image">
+        <div class="header-overlay">
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="usa.html">USA</a>
+                <a href="uk.html">UK</a>
+                <a href="community.html">Community</a>
+            </nav>
         </div>
     </div>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="usa.html">USA</a>
-        <a href="uk.html">UK</a>
-        <a href="community.html">Community</a>
-    </nav>
 </header>
 
 <main>
     <div class="container">
-        <!-- Main Articles -->
+        <!-- Main Content -->
         <section class="main-content">
             <article id="forecast">
                 <h2 id="forecast-title">Loading today's severe weather forecast...</h2>
@@ -170,9 +149,7 @@ footer {
         <aside class="sidebar">
             <article>
                 <h2>⚠️ Active Tornado Alerts</h2>
-                <ul id="alerts-list">
-                    <li>Loading tornado alerts…</li>
-                </ul>
+                <ul id="alerts-list"><li>Loading tornado alerts…</li></ul>
             </article>
         </aside>
     </div>
@@ -180,13 +157,12 @@ footer {
 
 <footer>
     <p>Please keep in mind that we are not the NWS or NOAA, we just post content.</p>
+    <button id="mode-toggle">Toggle Dark Mode</button>
 </footer>
 
 <script>
 const modeBtn = document.getElementById('mode-toggle');
-modeBtn.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-});
+modeBtn.addEventListener('click', () => document.body.classList.toggle('dark-mode'));
 
 const alertsList = document.getElementById('alerts-list');
 const forecastTitle = document.getElementById('forecast-title');
@@ -194,8 +170,7 @@ const forecastText = document.getElementById('forecast-text');
 
 function isFresh(timestamp, minutes) {
     if (!timestamp) return false;
-    const now = Date.now();
-    return (now - timestamp) < (minutes * 60 * 1000);
+    return (Date.now() - timestamp) < minutes * 60 * 1000;
 }
 
 /* Tornado Alerts */
@@ -209,20 +184,15 @@ async function fetchTornadoAlerts() {
         alertsList.innerHTML = "<li>Unable to load tornado alerts.</li>";
     }
 }
-
 function displayTornadoAlerts(alerts) {
     alertsList.innerHTML = "";
-    const types = ['Tornado Warning', 'Tornado Watch'];
+    const types = ['Tornado Warning','Tornado Watch'];
     const filtered = alerts.filter(a => types.includes(a.properties.event));
-    if (filtered.length === 0) {
-        alertsList.innerHTML = "<li>No active tornado alerts.</li>";
-        return;
-    }
+    if (filtered.length === 0) { alertsList.innerHTML="<li>No active tornado alerts.</li>"; return; }
     filtered.forEach(alert => {
         const p = alert.properties;
         const li = document.createElement("li");
-        li.innerHTML =
-            `<strong>${p.event}</strong>: ${p.areaDesc} — Expires: ${new Date(p.expires).toLocaleString()}`;
+        li.innerHTML = `<strong>${p.event}</strong>: ${p.areaDesc} — Expires: ${new Date(p.expires).toLocaleString()}`;
         alertsList.appendChild(li);
     });
 }
@@ -240,16 +210,15 @@ async function fetchTornadoForecast() {
         forecastText.textContent = "Please check back later.";
     }
 }
-
 function displayForecast(text) {
     forecastTitle.textContent = "Today's Severe Weather Forecast";
-    forecastText.innerHTML = text.replace(/\n/g, "<br>").replace(/\s{2,}/g, " ");
+    forecastText.innerHTML = text.replace(/\n/g,"<br>").replace(/\s{2,}/g," ");
 }
 
-/* Refresh Outlook Map (15 min) */
+/* Refresh Map (15 min) */
 function refreshOutlookMap() {
     const img = document.getElementById("outlook-map");
-    img.src = "https://www.spc.noaa.gov/products/outlook/day1otlk_1200.gif?cacheBust=" + Date.now();
+    img.src = "https://www.spc.noaa.gov/products/outlook/day1otlk_1200.gif?cacheBust="+Date.now();
 }
 
 /* Initial Load */
@@ -258,9 +227,9 @@ fetchTornadoForecast();
 refreshOutlookMap();
 
 /* Auto-refresh intervals */
-setInterval(fetchTornadoAlerts, 5 * 60 * 1000);   // Alerts every 5 min
-setInterval(fetchTornadoForecast, 10 * 60 * 1000); // Forecast every 10 min
-setInterval(refreshOutlookMap, 15 * 60 * 1000);    // Map every 15 min
+setInterval(fetchTornadoAlerts, 5*60*1000);    // Alerts 5 min
+setInterval(fetchTornadoForecast, 10*60*1000); // Forecast 10 min
+setInterval(refreshOutlookMap, 15*60*1000);    // Map 15 min
 </script>
 </body>
 </html>
