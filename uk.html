@@ -8,136 +8,104 @@
 :root {
   --bg-color: #e1e1e1;
   --text-color: #222;
-  --header-bg: #000;
   --header-color: #fbcf2f;
-  --tagline-color: #aaaaaa;
-  --article-bg: #fff;
-  --article-border: #999;
-  --footer-bg: #000;
-  --footer-color: #fff;
   --link-color: #0066cc;
   --link-hover: #004499;
 }
 body.dark-mode {
   --bg-color: #1e1e1e;
   --text-color: #e0e0e0;
-  --header-bg: #111;
   --header-color: #fbcf2f;
-  --tagline-color: #cccccc;
-  --article-bg: #222;
-  --article-border: #555;
-  --footer-bg: #111;
-  --footer-color: #f0f0f0;
   --link-color: #66aaff;
   --link-hover: #3399ff;
 }
-body {
-  font-family: Arial, sans-serif;
-  background: var(--bg-color);
-  color: var(--text-color);
-  margin: 0;
-  padding: 0;
+body { font-family: Arial, sans-serif; background: var(--bg-color); color: var(--text-color); margin:0; padding:0; }
+
+/* Banner */
+.banner-container { position: relative; width: 100%; overflow: hidden; }
+.banner-image { width: 100%; height: auto; display: block; }
+.header-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgba(0,0,0,0.3);
+    padding: 10px 0;
+    box-sizing: border-box;
 }
-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: var(--header-bg);
-  color: var(--header-color);
-  padding: 20px;
-}
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-}
-.header-left h1 { margin:0; font-size:2rem; color: var(--header-color); }
-.header-left .tagline { margin-top:5px; font-size:0.9rem; color: var(--tagline-color); }
-.header-right .logo { height:60px; width:auto; }
-#mode-toggle {
-  background:none; border:2px solid var(--header-color); color:var(--header-color);
-  padding:5px 10px; cursor:pointer; font-size:0.9rem; border-radius:4px;
-}
-#mode-toggle:hover { background:var(--header-color); color:var(--header-bg); }
-nav { margin-top:15px; text-align:center; }
-nav a { color:var(--header-color); text-decoration:none; margin:0 15px; font-weight:bold; }
-nav a:hover { color:var(--link-hover); }
-main { display:flex; justify-content:center; width:100%; }
-.container { width:100%; max-width:1200px; margin:30px auto; padding:0 20px; }
-article { background:var(--article-bg); padding:20px; margin-bottom:20px; border:2px solid var(--article-border); border-radius:6px; }
-#warnings-list { list-style-type:none; padding:0; display:flex; flex-direction:column; gap:10px; }
-#warnings-list li { margin:0; }
-.warning-link {
-  display:block; padding:10px 15px; border-radius:6px; color:#000; font-weight:bold;
-  text-decoration:none; transition:all 0.3s ease; border:2px solid transparent;
-}
+nav a { color: var(--header-color); text-decoration: none; margin: 0 15px; font-weight: bold; }
+nav a:hover { color: var(--link-hover); }
+
+/* Layout */
+main { display:flex; justify-content:center; width:100%; margin-top:30px; }
+.container { width:100%; max-width:1200px; margin:0 auto; padding:0 20px; display:flex; gap:20px; }
+article { background:#fff; padding:20px; margin-bottom:20px; border-radius:6px; border:2px solid #999; flex:1; }
+#warnings-list { list-style:none; padding:0; display:flex; flex-direction:column; gap:10px; }
+.warning-link { display:block; padding:10px 15px; border-radius:6px; font-weight:bold; text-decoration:none; transition: all 0.3s ease; border:2px solid transparent; }
 .warning-yellow { background:#fff700; border-color:#f5e500; color:#000; }
 .warning-amber  { background:#ffbf00; border-color:#e6a800; color:#000; }
 .warning-red    { background:#ff4c4c; border-color:#e63939; color:#fff; }
 .warning-link:hover { transform: scale(1.02); opacity:0.9; }
-footer { background:var(--footer-bg); color:var(--footer-color); text-align:center; padding:15px; }
-@media(max-width:900px){.header-top{flex-direction:column;align-items:center;} nav{margin-top:10px;}}
+
+footer { background:#000; color:#fff; text-align:center; padding:20px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+#mode-toggle { background:none; border:2px solid var(--header-color); color:var(--header-color); padding:5px 10px; cursor:pointer; font-size:0.9rem; border-radius:4px; }
+#mode-toggle:hover { background: var(--header-color); color:#000; }
+
+@media(max-width:900px){ 
+    .container{flex-direction:column;}
+    .header-overlay{flex-direction:column;align-items:center;}
+    nav{margin-top:5px;}
+}
 </style>
 </head>
 <body>
+
 <header>
-  <div class="header-top">
-    <div class="header-left">
-      <h1>MesoOne</h1>
-      <p class="tagline">Severe weather interception, research and alerts.</p>
+    <div class="banner-container">
+        <img src="MesoOneBanner2.png" alt="MesoOne Banner" class="banner-image">
+        <div class="header-overlay">
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="usa.html">USA</a>
+                <a href="uk.html">UK</a>
+                <a href="community.html">Community</a>
+            </nav>
+        </div>
     </div>
-    <div class="header-right">
-      <img src="MesoOneLogo.png" alt="Logo" class="logo" />
-      <button id="mode-toggle">Toggle Dark Mode</button>
-    </div>
-  </div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="usa.html">USA</a>
-    <a href="uk.html">UK</a>
-    <a href="community.html">Community</a>
-  </nav>
 </header>
 
 <main>
-  <div class="container">
-    <article>
-      <h2>UK Weather Warnings</h2>
-      <ul id="warnings-list"><li>Loading warnings…</li></ul>
-    </article>
-    <article>
-      <h2>UK Forecast</h2>
-      <p id="forecast-uk">Forecast content will go here…</p>
-    </article>
-  </div>
+    <div class="container">
+        <article>
+            <h2>UK Weather Warnings</h2>
+            <ul id="warnings-list"><li>Loading warnings…</li></ul>
+        </article>
+        <article>
+            <h2>UK Forecast</h2>
+            <p id="forecast-uk">Forecast content will go here…</p>
+        </article>
+    </div>
 </main>
 
 <footer>
-  <p>We are not an official Met Office site!</p>
+    <p>We are not an official Met Office site!</p>
+    <button id="mode-toggle">Toggle Dark Mode</button>
 </footer>
 
 <script>
 const modeBtn = document.getElementById('mode-toggle');
-modeBtn.addEventListener('click', ()=>{ 
-    document.body.classList.toggle('dark-mode'); 
-});
+modeBtn.addEventListener('click', ()=> document.body.classList.toggle('dark-mode'));
 
 // Met Office RSS feed
 const RSS_URL = 'https://weather.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/UK';
 const CORS_PROXY = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(RSS_URL);
 
-// Helper: checks if cached data is still "fresh"
 function isFresh(timestamp, minutes) {
     if (!timestamp) return false;
-    const now = Date.now();
-    return (now - timestamp) < (minutes * 60 * 1000);
+    return (Date.now() - timestamp) < (minutes * 60 * 1000);
 }
 
-// ----------------------------------------------------
-// Fetch UK Warnings with caching
-// ----------------------------------------------------
 async function fetchUKWarnings() {
     const cacheKey = "ukWarningsCache";
     const timeKey = "ukWarningsTimestamp";
@@ -145,10 +113,7 @@ async function fetchUKWarnings() {
     const cachedTime = localStorage.getItem(timeKey);
     const list = document.getElementById('warnings-list');
 
-    if (cached && isFresh(cachedTime, 5)) {
-        displayWarnings(JSON.parse(cached));
-        return;
-    }
+    if (cached && isFresh(cachedTime, 5)) { displayWarnings(JSON.parse(cached)); return; }
 
     list.innerHTML = '<li>Loading warnings…</li>';
 
@@ -160,30 +125,20 @@ async function fetchUKWarnings() {
         const items = xmlDoc.getElementsByTagName('item');
         const warnings = [];
 
-        list.innerHTML = '';
+        if(!items || items.length===0){ list.innerHTML='<li>No current warnings.</li>'; return; }
 
-        if(!items || items.length === 0){
-            list.innerHTML = '<li>No current warnings.</li>';
-            return;
-        }
-
-        for(let i=0; i<items.length; i++){
+        for(let i=0;i<items.length;i++){
             const item = items[i];
             const title = item.getElementsByTagName('title')[0]?.textContent || 'No title';
             const link = item.getElementsByTagName('link')[0]?.textContent || '#';
-
-            // Determine severity based on title text
-            let severityClass='warning-yellow'; // default yellow
+            let severityClass='warning-yellow';
             if(title.toLowerCase().includes('amber')) severityClass='warning-amber';
             else if(title.toLowerCase().includes('red')) severityClass='warning-red';
-
             warnings.push({title, link, severityClass});
         }
 
-        // Cache results
         localStorage.setItem(cacheKey, JSON.stringify(warnings));
         localStorage.setItem(timeKey, Date.now().toString());
-
         displayWarnings(warnings);
 
     } catch(err){
@@ -194,19 +149,18 @@ async function fetchUKWarnings() {
 
 function displayWarnings(warnings) {
     const list = document.getElementById('warnings-list');
-    list.innerHTML = '';
-    warnings.forEach(warning => {
-        const li = document.createElement('li');
-        li.innerHTML = `<a href="${warning.link}" target="_blank" class="warning-link ${warning.severityClass}">${warning.title}</a>`;
+    list.innerHTML='';
+    warnings.forEach(warning=>{
+        const li=document.createElement('li');
+        li.innerHTML=`<a href="${warning.link}" target="_blank" class="warning-link ${warning.severityClass}">${warning.title}</a>`;
         list.appendChild(li);
     });
 }
 
-// ----------------------------------------------------
-// Run on page load and auto-refresh every 5 minutes
-// ----------------------------------------------------
+// Initial load & auto-refresh
 fetchUKWarnings();
-setInterval(fetchUKWarnings, 5*60*1000); // 5 minutes
+setInterval(fetchUKWarnings, 5*60*1000);
 </script>
+
 </body>
 </html>
