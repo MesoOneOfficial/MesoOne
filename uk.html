@@ -119,45 +119,93 @@ footer { background:var(--footer-bg); color:var(--footer-color); text-align:cent
 
 <script>
 const modeBtn = document.getElementById('mode-toggle');
-modeBtn.addEventListener('click', ()=>{ document.body.classList.toggle('dark-mode'); });
+modeBtn.addEventListener('click', ()=>{ 
+    document.body.classList.toggle('dark-mode'); 
+});
 
 // Met Office RSS feed
 const RSS_URL = 'https://weather.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/UK';
 const CORS_PROXY = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(RSS_URL);
 
-async function fetchUKWarnings(){
-  const list = document.getElementById('warnings-list');
-  list.innerHTML='<li>Loading warnings…</li>';
-  try{
-    const response = await fetch(CORS_PROXY);
-    const xmlText = await response.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText,'text/xml');
-    const items = xmlDoc.getElementsByTagName('item');
-    list.innerHTML='';
-    if(!items || items.length===0){ list.innerHTML='<li>No current warnings.</li>'; return; }
-    for(let i=0;i<items.length;i++){
-      const item = items[i];
-      const title = item.getElementsByTagName('title')[0]?.textContent || 'No title';
-      const link = item.getElementsByTagName('link')[0]?.textContent || '#';
-
-      // Determine severity based on title text
-      let severityClass='warning-yellow'; // default yellow
-      if(title.toLowerCase().includes('amber')) severityClass='warning-amber';
-      else if(title.toLowerCase().includes('red')) severityClass='warning-red';
-
-      const li=document.createElement('li');
-      li.innerHTML=`<a href="${link}" target="_blank" class="warning-link ${severityClass}">${title}</a>`;
-      list.appendChild(li);
-    }
-  }catch(err){
-    console.error('Error loading RSS:',err);
-    list.innerHTML='<li>Unable to load warnings.</li>';
-  }
+// Helper: checks if cached data is still "fresh"
+function isFresh(timestamp, minutes) {
+    if (!timestamp) return false;
+    const now = Date.now();
+    return (now - timestamp) < (minutes * 60 * 1000);
 }
 
+// ----------------------------------------------------
+// Fetch UK Warnings with caching
+// ----------------------------------------------------
+async function fetchUKWarnings() {
+    const cacheKey = "ukWarningsCache";
+    const timeKey = "ukWarningsTimestamp";
+    const cached = localStorage.getItem(cacheKey);
+    const cachedTime = localStorage.getItem(timeKey);
+    const list = document.getElementById('warnings-list');
+
+    if (cached && isFresh(cachedTime, 5)) {
+        displayWarnings(JSON.parse(cached));
+        return;
+    }
+
+    list.innerHTML = '<li>Loading warnings…</li>';
+
+    try {
+        const response = await fetch(CORS_PROXY);
+        const xmlText = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText,'text/xml');
+        const items = xmlDoc.getElementsByTagName('item');
+        const warnings = [];
+
+        list.innerHTML = '';
+
+        if(!items || items.length === 0){
+            list.innerHTML = '<li>No current warnings.</li>';
+            return;
+        }
+
+        for(let i=0; i<items.length; i++){
+            const item = items[i];
+            const title = item.getElementsByTagName('title')[0]?.textContent || 'No title';
+            const link = item.getElementsByTagName('link')[0]?.textContent || '#';
+
+            // Determine severity based on title text
+            let severityClass='warning-yellow'; // default yellow
+            if(title.toLowerCase().includes('amber')) severityClass='warning-amber';
+            else if(title.toLowerCase().includes('red')) severityClass='warning-red';
+
+            warnings.push({title, link, severityClass});
+        }
+
+        // Cache results
+        localStorage.setItem(cacheKey, JSON.stringify(warnings));
+        localStorage.setItem(timeKey, Date.now().toString());
+
+        displayWarnings(warnings);
+
+    } catch(err){
+        console.error('Error loading RSS:',err);
+        list.innerHTML='<li>Unable to load warnings.</li>';
+    }
+}
+
+function displayWarnings(warnings) {
+    const list = document.getElementById('warnings-list');
+    list.innerHTML = '';
+    warnings.forEach(warning => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${warning.link}" target="_blank" class="warning-link ${warning.severityClass}">${warning.title}</a>`;
+        list.appendChild(li);
+    });
+}
+
+// ----------------------------------------------------
+// Run on page load and auto-refresh every 5 minutes
+// ----------------------------------------------------
 fetchUKWarnings();
-setInterval(fetchUKWarnings,15*60*1000);
+setInterval(fetchUKWarnings, 5*60*1000); // 5 minutes
 </script>
 </body>
 </html>
