@@ -10,105 +10,53 @@
 :root {
     --bg-color: #e1e1e1;
     --text-color: #222;
+    --header-bg: #000;
     --header-color: #fbcf2f;
+    --tagline-color: #aaaaaa;
+    --article-bg: #fff;
+    --article-border: #999;
+    --footer-bg: #000;
+    --footer-color: #fff;
     --link-color: #0066cc;
     --link-hover: #004499;
 }
 body.dark-mode {
     --bg-color: #1e1e1e;
     --text-color: #e0e0e0;
+    --header-bg: #111;
     --header-color: #fbcf2f;
+    --tagline-color: #cccccc;
+    --article-bg: #222;
+    --article-border: #555;
+    --footer-bg: #111;
+    --footer-color: #f0f0f0;
     --link-color: #66aaff;
     --link-hover: #3399ff;
 }
-body {
-    font-family: Arial, sans-serif;
-    background: var(--bg-color);
-    color: var(--text-color);
-    margin:0;
-    padding:0;
-}
 
-/* Banner and header */
-.banner-container {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-}
-.banner-image {
-    width: 100%;
-    height: auto; /* maintain aspect ratio */
-    display: block;
-}
-.header-overlay {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background: rgba(0,0,0,0.3); /* optional overlay for visibility */
-    padding: 10px 0;
-    box-sizing: border-box;
-}
-nav a {
-    color: var(--header-color);
-    text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
-}
+body { font-family: Arial, sans-serif; background: var(--bg-color); color: var(--text-color); margin:0; padding:0; }
+header { display:flex; flex-direction:column; align-items:center; background: var(--header-bg); color: var(--header-color); padding:20px; }
+.header-top { display:flex; justify-content:space-between; align-items:center; width:100%; max-width:1200px; }
+.header-left h1 { margin:0; font-size:2rem; color: var(--header-color); }
+.header-left .tagline { margin-top:5px; font-size:0.9rem; color: var(--tagline-color); }
+.header-right .logo { height:60px; width:auto; }
+#mode-toggle { background:none; border:2px solid var(--header-color); color: var(--header-color); padding:5px 10px; cursor:pointer; font-size:0.9rem; border-radius:4px; }
+#mode-toggle:hover { background: var(--header-color); color: var(--header-bg); }
+
+nav { margin-top:15px; text-align:center; }
+nav a { color: var(--header-color); text-decoration:none; margin:0 15px; font-weight:bold; }
 nav a:hover { color: var(--link-hover); }
 
-main {
-    display:flex;
-    justify-content:center;
-    width:100%;
-}
-.container {
-    width:100%;
-    max-width:1200px;
-    margin:30px auto;
-    padding:0 20px;
-}
-article {
-    background:#fff;
-    padding:20px;
-    margin-bottom:20px;
-    border-radius:6px;
-    border:2px solid #999;
-}
+main { display:flex; justify-content:center; width:100%; }
+.container { width:100%; max-width:1200px; margin:30px auto; padding:0 20px; }
 
-footer {
-    background:#000;
-    color:#fff;
-    text-align:center;
-    padding:20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap:10px;
-}
-#mode-toggle {
-    background:none;
-    border:2px solid var(--header-color);
-    color: var(--header-color);
-    padding:5px 10px;
-    cursor:pointer;
-    font-size:0.9rem;
-    border-radius:4px;
-}
-#mode-toggle:hover {
-    background: var(--header-color);
-    color:#000;
-}
+article { background: var(--article-bg); padding:20px; margin-bottom:20px; border:2px solid var(--article-border); border-radius:6px; }
+
+footer { background: var(--footer-bg); color: var(--footer-color); text-align:center; padding:15px; }
 
 @media(max-width:900px){
-    .header-overlay{
-        flex-direction:column;
-        align-items:center;
-    }
-    nav{
-        margin-top:5px;
-    }
+    .header-top{flex-direction:column;align-items:center;}
+    nav{margin-top:10px;}
 }
 </style>
 </head>
@@ -116,39 +64,43 @@ footer {
 <body>
 
 <header>
-    <div class="banner-container">
-        <img src="MesoOnebanner2.png" alt="MesoOne Banner" class="banner-image">
-        <div class="header-overlay">
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="usa.html">USA</a>
-                <a href="uk.html">UK</a>
-                <a href="community.html">Community</a>
-            </nav>
+    <div class="header-top">
+        <div class="header-left">
+            <h1>MesoOne</h1>
+            <p class="tagline">Severe weather interception, research and alerts.</p>
+        </div>
+        <div class="header-right">
+            <img src="MesoOneLogo.png" alt="MesoOne Logo" class="logo">
+            
         </div>
     </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="community.html">Community</a>
+    </nav>
 </header>
 
 <main>
     <div class="container">
 
+        <!-- ⭐ EMPTY MAIN SECTION FOR NOW ⭐ -->
         <article>
             <h2>Welcome to the MesoOne Community Page!</h2>
             <p>This page is for community contributions such as media and personal forecasts.</p>
-            <p>To add to this page, join our Discord and open a ticket.</p>
+            <p>To add to this page, DM us on X @MesoOneOfficial</p>
+    
         </article>
 
         <article>
-            <h2>Photos of the Week</h2>
-            <p>If you want your storm photos displayed here, please submit them in the Discord.</p>
+            <h2>Photos of the week</h2>
+            <p>If you want you storm photos to be displayed here, DM us!.</p>
         </article>
-
     </div>
 </main>
 
 <footer>
     <p>We are not the NWS, NOAA or the Met Office!</p>
-  
 </footer>
 
 <script>
