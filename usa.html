@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MesoOne - USA Severe Weather Tracker</title>
+
 <style>
 :root {
     --bg-color: #e1e1e1;
@@ -18,6 +19,7 @@
     --link-color: #0066cc;
     --link-hover: #004499;
 }
+
 body.dark-mode {
     --bg-color: #1e1e1e;
     --text-color: #e0e0e0;
@@ -32,38 +34,158 @@ body.dark-mode {
     --link-hover: #3399ff;
 }
 
-body { font-family: Arial, sans-serif; background: var(--bg-color); color: var(--text-color); margin:0; padding:0; }
-header { display:flex; flex-direction:column; align-items:center; background: var(--header-bg); color: var(--header-color); padding:20px; }
-.header-top { display:flex; justify-content:space-between; align-items:center; width:100%; max-width:1200px; }
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    margin:0; padding:0;
+}
+
+header {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background: var(--header-bg);
+    color: var(--header-color);
+    padding:20px;
+}
+
+.header-top {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    max-width:1200px;
+}
+
 .header-left h1 { margin:0; font-size:2rem; color: var(--header-color); }
 .header-left .tagline { margin-top:5px; font-size:0.9rem; color: var(--tagline-color); }
 .header-right .logo { height:60px; width:auto; }
-#mode-toggle { background:none; border:2px solid var(--header-color); color: var(--header-color); padding:5px 10px; cursor:pointer; font-size:0.9rem; border-radius:4px; }
+
+#mode-toggle {
+    background:none;
+    border:2px solid var(--header-color);
+    color: var(--header-color);
+    padding:5px 10px;
+    cursor:pointer;
+    font-size:0.9rem;
+    border-radius:4px;
+}
 #mode-toggle:hover { background: var(--header-color); color: var(--header-bg); }
 
 nav { margin-top:15px; text-align:center; }
-nav a { color: var(--header-color); text-decoration:none; margin:0 15px; font-weight:bold; }
+nav a {
+    color: var(--header-color);
+    text-decoration:none;
+    margin:0 15px;
+    font-weight:bold;
+}
 nav a:hover { color: var(--link-hover); }
 
-main { display:flex; justify-content:center; width:100%; }
-.container { display:flex; gap:20px; width:100%; max-width:1200px; margin:30px auto; padding:0 20px; }
+main { display:block; width:100%; }
 
-.main-content { flex:2; min-width:60%; }
-.sidebar { flex:1; min-width:30%; }
+.container {
+    width:100%;
+    max-width:1200px;
+    margin:30px auto;
+    padding:0 20px;
+}
 
-article { background: var(--article-bg); padding:20px; margin-bottom:20px; border:2px solid var(--article-border); border-radius:6px; }
+.main-content {
+    width:100%;
+    margin-right:300px; /* leave space for sidebar */
+}
+
+article {
+    background: var(--article-bg);
+    padding:20px;
+    margin-bottom:20px;
+    border:2px solid var(--article-border);
+    border-radius:6px;
+}
 
 h2 { color:#000; }
 body.dark-mode h2 { color:#fff; }
 
-#forecast-text { white-space: normal; line-height:1.5; font-family: monospace; background: var(--article-bg); padding:15px; border-radius:5px; border:1px solid var(--article-border); max-height:700px; overflow-y:auto; }
-#outlook-map { width:100%; max-width:600px; border:2px solid var(--article-border); border-radius:6px; }
+#forecast-text {
+    white-space: normal;
+    line-height:1.5;
+    font-family: monospace;
+    background: var(--article-bg);
+    padding:15px;
+    border-radius:5px;
+    border:1px solid var(--article-border);
+    max-height:700px;
+    overflow-y:auto;
+}
 
-footer { background: var(--footer-bg); color: var(--footer-color); text-align:center; padding:15px; }
+#outlook-map {
+    width:100%;
+    max-width:600px;
+    border:2px solid var(--article-border);
+    border-radius:6px;
+}
 
-@media(max-width:900px){.header-top{flex-direction:column;align-items:center;} nav{margin-top:10px;} .container{flex-direction:column;} .main-content, .sidebar{min-width:100%;}}
+/* ---------- RIGHT FIXED SIDEBAR ---------- */
+#alerts-sidebar {
+    position: fixed;
+    top: 120px;
+    right: 0;
+    width: 280px;
+    height: calc(100% - 130px);
+    background: var(--article-bg);
+    border-left: 2px solid var(--article-border);
+    padding: 15px;
+    overflow-y: auto;
+    box-shadow: -3px 0 8px rgba(0,0,0,0.15);
+    z-index: 999;
+}
+
+#alerts-sidebar h3 {
+    margin-top: 0;
+    color: var(--text-color);
+}
+
+#alerts-sidebar ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#alerts-sidebar li {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--article-border);
+}
+
+/* MOBILE LAYOUT */
+@media(max-width:900px){
+    .header-top { flex-direction:column; align-items:center; }
+    nav { margin-top:10px; }
+
+    #alerts-sidebar {
+        position: static;
+        width:100%;
+        height:auto;
+        border-left:none;
+        border-top:2px solid var(--article-border);
+        box-shadow:none;
+        margin-top:20px;
+    }
+
+    .main-content {
+        margin-right:0;
+    }
+}
+
+footer {
+    background: var(--footer-bg);
+    color: var(--footer-color);
+    text-align:center;
+    padding:15px;
+}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -72,11 +194,13 @@ footer { background: var(--footer-bg); color: var(--footer-color); text-align:ce
             <h1>MesoOne</h1>
             <p class="tagline">Severe weather interception, research and alerts.</p>
         </div>
+
         <div class="header-right">
             <img src="MesoOneLogo.png" alt="Tornado Tracker Logo" class="logo">
             <button id="mode-toggle">Toggle Dark Mode</button>
         </div>
     </div>
+
     <nav>
         <a href="index.html">Home</a>
         <a href="usa.html">USA</a>
@@ -86,8 +210,10 @@ footer { background: var(--footer-bg); color: var(--footer-color); text-align:ce
 </header>
 
 <main>
+
     <div class="container">
         <section class="main-content">
+
             <article id="forecast">
                 <h2 id="forecast-title">Loading today's severe weather forecast...</h2>
                 <p class="meta">Updated daily | Source: NOAA SPC</p>
@@ -97,16 +223,20 @@ footer { background: var(--footer-bg); color: var(--footer-color); text-align:ce
             <article>
                 <h2>Today's Severe Weather Outlook Map</h2>
                 <p class="meta">Updated daily</p>
-                <img id="outlook-map" src="https://www.spc.noaa.gov/products/outlook/day1otlk_1200.gif" alt="SPC Day 1 Tornado Outlook">
-                <p>If the map does not appear, <a href="https://www.spc.noaa.gov/products/outlook/day1otlk.html" target="_blank" style="color: var(--link-color);">click here to view it on the SPC site</a>.</p>
+                <img id="outlook-map" src="https://www.spc.noaa.gov/products/outlook/day1otlk_1200.gif" alt="SPC Day 1 Tornado Outlook">
             </article>
 
-            <article>
-                <h2>⚠️ Tornado Alerts</h2>
-                <ul id="alerts-list"><li>Loading tornado alerts…</li></ul>
-            </article>
         </section>
     </div>
+
+    <!-- FIXED ALERT SIDEBAR -->
+    <aside id="alerts-sidebar">
+        <h3>⚠️ Active Tornado Alerts</h3>
+        <ul id="alerts-list">
+            <li>Loading tornado alerts…</li>
+        </ul>
+    </aside>
+
 </main>
 
 <footer>
@@ -123,42 +253,21 @@ const alertsList = document.getElementById('alerts-list');
 const forecastTitle = document.getElementById('forecast-title');
 const forecastText = document.getElementById('forecast-text');
 
-// ----------------------------------------------------
-// Helper: checks if cached data is still "fresh"
-// ----------------------------------------------------
+// Helper to check cache freshness
 function isFresh(timestamp, minutes) {
     if (!timestamp) return false;
     const now = Date.now();
     return (now - timestamp) < (minutes * 60 * 1000);
 }
 
-// ----------------------------------------------------
-// Tornado Alerts (weather.gov API)
-// Cached for 5 minutes
-// ----------------------------------------------------
+/* ---------------------------
+   TORNADO ALERTS (5 min)
+---------------------------- */
 async function fetchTornadoAlerts() {
-    const cacheKey = "tornadoAlertsCache";
-    const timeKey = "tornadoAlertsTimestamp";
-
-    const cached = localStorage.getItem(cacheKey);
-    const cachedTime = localStorage.getItem(timeKey);
-
-    if (cached && isFresh(cachedTime, 5)) {
-        displayTornadoAlerts(JSON.parse(cached));
-        return;
-    }
-
-    alertsList.innerHTML = "<li>Loading tornado alerts…</li>";
-
     try {
         const r = await fetch("https://api.weather.gov/alerts/active");
         const data = await r.json();
         const alerts = data.features || [];
-
-        // Cache results
-        localStorage.setItem(cacheKey, JSON.stringify(alerts));
-        localStorage.setItem(timeKey, Date.now().toString());
-
         displayTornadoAlerts(alerts);
     } catch {
         alertsList.innerHTML = "<li>Unable to load tornado alerts.</li>";
@@ -167,52 +276,38 @@ async function fetchTornadoAlerts() {
 
 function displayTornadoAlerts(alerts) {
     alertsList.innerHTML = "";
-    const tornadoEvents = ['Tornado Warning', 'Tornado Watch'];
+    const types = ['Tornado Warning', 'Tornado Watch'];
 
-    const filtered = alerts.filter(a => tornadoEvents.includes(a.properties.event));
+    const filtered = alerts.filter(a => types.includes(a.properties.event));
 
     if (filtered.length === 0) {
-        alertsList.innerHTML = "<li>No active tornado alerts at this time.</li>";
+        alertsList.innerHTML = "<li>No active tornado alerts.</li>";
         return;
     }
 
     filtered.forEach(alert => {
-        const props = alert.properties;
+        const p = alert.properties;
         const li = document.createElement("li");
-        li.innerHTML = `<strong>${props.event}</strong>: ${props.areaDesc} — Expires: ${new Date(props.expires).toLocaleString()}`;
+        li.innerHTML =
+            `<strong>${p.event}</strong><br>${p.areaDesc}<br><small>Expires: ${new Date(p.expires).toLocaleString()}</small>`;
         alertsList.appendChild(li);
     });
 }
 
-// ----------------------------------------------------
-// Tornado Forecast (SPC)
-// Cached for 5 minutes
-// ----------------------------------------------------
+/* ---------------------------
+   FORECAST TEXT (10 min)
+---------------------------- */
 async function fetchTornadoForecast() {
-    const cacheKey = "tornadoForecastCache";
-    const timeKey = "tornadoForecastTimestamp";
-
-    const cached = localStorage.getItem(cacheKey);
-    const cachedTime = localStorage.getItem(timeKey);
-
-    if (cached && isFresh(cachedTime, 5)) {
-        displayForecast(cached);
-        return;
-    }
-
     try {
         const response = await fetch("https://www.spc.noaa.gov/products/outlook/day1otlk.html");
         const text = await response.text();
         const match = text.match(/<pre>([\s\S]*?)<\/pre>/i);
-        const outlookText = match ? match[1].trim() : "No data available.";
-
-        localStorage.setItem(cacheKey, outlookText);
-        localStorage.setItem(timeKey, Date.now().toString());
+        const outlookText = match ? match[1].trim() : "No forecast available.";
 
         displayForecast(outlookText);
     } catch {
         forecastTitle.textContent = "Unable to load today's tornado forecast.";
-        forecastText.textContent = "Please check back later or visit the SPC directly.";
+        forecastText.textContent = "Please check back later.";
     }
 }
 
@@ -221,17 +316,29 @@ function displayForecast(text) {
     forecastText.innerHTML = text.replace(/\n/g, "<br>").replace(/\s{2,}/g, " ");
 }
 
-// ----------------------------------------------------
-// Run on page load (auto-refresh every 5 minutes)
-// ----------------------------------------------------
+/* ---------------------------
+   OUTLOOK MAP REFRESH (15 min)
+---------------------------- */
+function refreshOutlookMap() {
+    const img = document.getElementById("outlook-map");
+    img.src = "https://www.spc.noaa.gov/products/outlook/day1otlk_1200.gif?cacheBust=" + Date.now();
+}
+
+/* ---------------------------
+   INITIAL LOAD
+---------------------------- */
 fetchTornadoAlerts();
 fetchTornadoForecast();
+refreshOutlookMap();
 
-// Optional: auto-refresh even if page is open
-setInterval(() => {
-    fetchTornadoAlerts();
-    fetchTornadoForecast();
-}, 5 * 60 * 1000); // 5 minutes
+/* ---------------------------
+   AUTO REFRESH INTERVALS
+---------------------------- */
+setInterval(fetchTornadoAlerts, 5 * 60 * 1000);   // Alerts every 5 min
+setInterval(fetchTornadoForecast, 10 * 60 * 1000); // Forecast every 10 min
+setInterval(refreshOutlookMap,   15 * 60 * 1000);  // Map every 15 min
+
 </script>
+
 </body>
 </html>
