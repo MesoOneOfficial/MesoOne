@@ -22,14 +22,14 @@
 }
 body.dark-mode {
     --bg-color: #1e1e1e;
-    --text-color: #000000;
+    --text-color: #ffffff;
     --header-bg: #111;
     --header-color: #fbcf2f;
     --tagline-color: #cccccc;
     --article-bg: #222;
     --article-border: #555;
     --footer-bg: #000;
-    --footer-color: #000000;
+    --footer-color: #ffffff;
     --link-color: #66aaff;
     --link-hover: #3399ff;
 }
@@ -71,9 +71,11 @@ footer { background: var(--footer-bg); color: var(--footer-color); text-align:ce
         </div>
         <div class="header-right">
             <img src="MesoOneLogo.png" alt="MesoOne Logo" class="logo">
-            
         </div>
     </div>
+
+    <!-- Dark mode button (was missing before) -->
+    <button id="mode-toggle">Toggle Dark Mode</button>
 
     <nav>
         <a href="index.html">Home</a>
@@ -84,19 +86,29 @@ footer { background: var(--footer-bg); color: var(--footer-color); text-align:ce
 <main>
     <div class="container">
 
-        <!-- ⭐ EMPTY MAIN SECTION FOR NOW ⭐ -->
         <article>
             <h2>Welcome to the MesoOne Community Page!</h2>
             <p>This page is for community contributions such as media and personal forecasts.</p>
             <p>To add to this page, DM us on X @MesoOneOfficial</p>
-    
         </article>
 
         <article>
             <h2>Photos of the week</h2>
-               <img src="tornado.png" alt="image" width="400" hight="200">
+            <img src="tornado.png" alt="Storm image" width="400" height="200">
             <p>If you want your storm photos to be displayed here, DM us!</p>
         </article>
+
+        <!-- NEW DISCORD SECTION -->
+        <article>
+            <h2>Join our Discord</h2>
+            <p>Connect with the community, share forecasts, and chat in real-time.</p>
+            <p>
+                <a href="https://discord.com/invite/qYf6sh27qg" target="_blank">
+                    Join our Discord server
+                </a>
+            </p>
+        </article>
+
     </div>
 </main>
 
@@ -106,7 +118,9 @@ footer { background: var(--footer-bg); color: var(--footer-color); text-align:ce
 
 <script>
 const modeBtn = document.getElementById('mode-toggle');
-modeBtn.addEventListener('click',()=>{document.body.classList.toggle('dark-mode');});
+modeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+});
 </script>
 
 </body>
