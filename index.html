@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta name="description" content="Official MesoOne Webpage.">
@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MesoOne | Official MesoOne Page</title>
+
 <style>
 :root {
     --bg-color: #e1e1e1;
@@ -20,6 +21,7 @@
     --link-color: #0066cc;
     --link-hover: #004499;
 }
+
 body.dark-mode {
     --bg-color: #1e1e1e;
     --text-color: #e0e0e0;
@@ -35,28 +37,121 @@ body.dark-mode {
 }
 
 body { font-family: Arial, sans-serif; background: var(--bg-color); color: var(--text-color); margin:0; padding:0; }
+
 header { display:flex; flex-direction:column; align-items:center; background: var(--header-bg); color: var(--header-color); padding:20px; }
+
 .header-top { display:flex; justify-content:space-between; align-items:center; width:100%; max-width:1200px; }
+
 .header-left h1 { margin:0; font-size:2rem; color: var(--header-color); }
+
 .header-left .tagline { margin-top:5px; font-size:0.9rem; color: var(--tagline-color); }
+
 .header-right .logo { height:60px; width:auto; }
-#mode-toggle { background:none; border:2px solid var(--header-color); color: var(--header-color); padding:5px 10px; cursor:pointer; font-size:0.9rem; border-radius:4px; }
-#mode-toggle:hover { background: var(--header-color); color: var(--header-bg); }
+
+#mode-toggle {
+    background:none;
+    border:2px solid var(--header-color);
+    color: var(--header-color);
+    padding:5px 10px;
+    cursor:pointer;
+    font-size:0.9rem;
+    border-radius:4px;
+}
+
+#mode-toggle:hover {
+    background: var(--header-color);
+    color: var(--header-bg);
+}
 
 nav { margin-top:15px; text-align:center; }
-nav a { color: var(--header-color); text-decoration:none; margin:0 15px; font-weight:bold; }
+
+nav a {
+    color: var(--header-color);
+    text-decoration:none;
+    margin:0 15px;
+    font-weight:bold;
+}
+
 nav a:hover { color: var(--link-hover); }
 
 main { display:flex; justify-content:center; width:100%; }
-.container { width:100%; max-width:1200px; margin:30px auto; padding:0 20px; }
 
-article { background: var(--article-bg); padding:20px; margin-bottom:20px; border:2px solid var(--article-border); border-radius:6px; }
+.container {
+    width:100%;
+    max-width:1200px;
+    margin:30px auto;
+    padding:0 20px;
+}
 
-footer { background: var(--footer-bg); color: var(--footer-color); text-align:center; padding:15px; }
+article {
+    background: var(--article-bg);
+    padding:20px;
+    margin-bottom:20px;
+    border:2px solid var(--article-border);
+    border-radius:6px;
+}
 
-@media(max-width:900px){.header-top{flex-direction:column;align-items:center;} nav{margin-top:10px;}}
+/* ===== NEW COLOUR TABLE SECTION ===== */
+
+.colortables {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.ct-box {
+    flex: 1;
+    min-width: 280px;
+}
+
+.ct-toggle {
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+    background: var(--header-bg);
+    color: var(--header-color);
+    border: 2px solid var(--article-border);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.ct-toggle:hover {
+    background: var(--header-color);
+    color: var(--header-bg);
+}
+
+.ct-content {
+    display: none;
+    margin-top: 10px;
+}
+
+.ct-content textarea {
+    width: 100%;
+    height: 220px;
+    background: var(--article-bg);
+    color: var(--text-color);
+    border: 2px solid var(--article-border);
+    padding: 10px;
+    resize: vertical;
+    font-family: monospace;
+}
+
+/* ===== END NEW SECTION ===== */
+
+footer {
+    background: var(--footer-bg);
+    color: var(--footer-color);
+    text-align:center;
+    padding:15px;
+}
+
+@media(max-width:900px){
+    .header-top{flex-direction:column;align-items:center;}
+    nav{margin-top:10px;}
+}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -67,17 +162,18 @@ footer { background: var(--footer-bg); color: var(--footer-color); text-align:ce
         </div>
         <div class="header-right">
             <img src="MesoOneLogo.png" alt="Tornado Tracker Logo" class="logo">
-    
         </div>
     </div>
+
     <nav>
         <a href="index.html">Home</a>
-         <a href="community.html">Community</a>
+        <a href="community.html">Community</a>
     </nav>
 </header>
 
 <main>
     <div class="container">
+
         <article>
             <h2>Welcome to MesoOne</h2>
             <p>We are a small organization focusing on severe weather in the US and UK. Please feel free to explore all of our subpages.</p>
@@ -88,10 +184,45 @@ footer { background: var(--footer-bg); color: var(--footer-color); text-align:ce
             <p>Please keep in mind, we post NWS sources on this page but we are not an official NWS page. Please also keep in mind that information may be wrong so please check sources. If you want to reach out, please don’t hesitate to DM us on X @MesoOneOfficial </p>
         </article>
 
-    <article>
-        <h2>Our Goal</h2>
-        <p>We want this page to become a hub for people interested in severe weather. Our goal is to build a community where weather enthusiasts can talk, share knowledge, and even contribute to MesoOne. </p>
-    </article>
+        <article>
+            <h2>Our Goal</h2>
+            <p>We want this page to become a hub for people interested in severe weather. Our goal is to build a community where weather enthusiasts can talk, share knowledge, and even contribute to MesoOne.</p>
+        </article>
+
+        <!-- ===== NEW COLOUR TABLES SECTION ===== -->
+
+        <article>
+            <h2>Colour Tables</h2>
+
+            <div class="colortables">
+
+                <div class="ct-box">
+                    <button class="ct-toggle">Reflectivity</button>
+                    <div class="ct-content">
+<textarea readonly>
+# Paste your reflectivity table here
+Color: 70 255 255 255
+Color: 60 255 0 0
+</textarea>
+                    </div>
+                </div>
+
+                <div class="ct-box">
+                    <button class="ct-toggle">Velocity</button>
+                    <div class="ct-content">
+<textarea readonly>
+# Paste your velocity table here
+Color: 50 255 0 0
+Color: -50 0 255 0
+</textarea>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+
+        <!-- ===== END SECTION ===== -->
+
     </div>
 </main>
 
@@ -100,8 +231,23 @@ footer { background: var(--footer-bg); color: var(--footer-color); text-align:ce
 </footer>
 
 <script>
+// Dark mode
 const modeBtn = document.getElementById('mode-toggle');
-modeBtn.addEventListener('click',()=>{document.body.classList.toggle('dark-mode');});
+if(modeBtn){
+    modeBtn.addEventListener('click',()=>{
+        document.body.classList.toggle('dark-mode');
+    });
+}
+
+// Dropdown toggle
+document.querySelectorAll('.ct-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+        const content = button.nextElementSibling;
+        content.style.display =
+            content.style.display === "block" ? "none" : "block";
+    });
+});
 </script>
+
 </body>
 </html>
