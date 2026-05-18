@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MesoOne | Resources</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- REQUIRED FOR PROPER EXPORT (polygons included) -->
+<script src="https://unpkg.com/leaflet-image/leaflet-image.js"></script>
+
+<style>
+
+:root {
+    --bg-color: #e1e1e1;
+    --text-color: #222;
+    --header-bg: #000;
+    --header-color: #fbcf2f;
+    --article-bg: #fff;
+    --article-border: #999;
+    --footer-bg: #e1e1e1;
+    --footer-color: #000;
+    --link-hover: #004499;
+    --card-bg: #f7f7f7;
+}
+
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* HEADER (home style match) */
+header {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:var(--header-bg);
+    color:var(--header-color);
+    padding:20px;
+}
+
+.header-top {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    max-width:1200px;
+}
+
+.logo {
+    height:60px;
+}
+
+nav {
+    margin-top:15px;
+}
+
+nav a {
+    color:var(--header-color);
+    text-decoration:none;
+    margin:0 15px;
+    font-weight:bold;
+}
+
+nav a:hover {
+    color:var(--link-hover);
+}
+
+/* MAIN */
+.container {
+    max-width:1200px;
+    margin:30px auto;
+    padding:0 20px;
+}
+
+article {
+    background:var(--article-bg);
+    border:2px solid var(--article-border);
+    border-radius:6px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+/* CONTROLS */
+.controls {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.controls button,
+.controls select,
+.controls input {
+    padding:10px;
+    border:none;
+    border-radius:4px;
+    font-weight:bold;
+}
+
+.controls button {
+    background:#000;
+    color:#fbcf2f;
+    cursor:pointer;
+}
+
+.controls button:hover {
+    background:#fbcf2f;
+    color:#000;
+}
+
+/* MAP */
+#map {
+    width:100%;
+    height:750px;
+    border:2px solid var(--article-border);
+    border-radius:6px;
+}
+
+/* LABELS */
+.polygon-label {
+    background:transparent;
+    border:none;
+    color:white;
+    font-weight:bold;
+    text-shadow:0 0 5px black;
+}
+
+/* LEGEND */
+.legend {
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-top:15px;
+}
+
+.level-box {
+    width:18px;
+    height:18px;
+    display:inline-block;
+    margin-right:6px;
+    border-radius:3px;
+    border:1px solid #000;
+}
+
+.legend-item {
+    display:flex;
+    align-items:center;
+}
+
+footer {
+    text-align:center;
+    padding:15px;
+}
+
+@media(max-width:900px){
+    .controls {
+        flex-direction:column;
+    }
+    .controls button,
+    .controls select,
+    .controls input {
+        width:100%;
+    }
+    #map {
+        height:500px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="header-top">
+    <div>
+        <h1>MesoOne</h1>
+        <p>Severe weather interception, research and alerts.</p>
+    </div>
+
+    <img class="logo" src="MesoOneLogo.png" alt="logo">
+</div>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="community.html">Community</a>
+    <a href="resources.html">Resources</a>
+</nav>
+
+</header>
+
+<div class="container">
+
+<article>
+
+<h2>Weather Outlook Maker</h2>
+
+<p>
+Click to place points. Polygons auto-connect. Finish to lock in a risk area.
+</p>
+
+<div class="controls">
+
+<select id="riskType">
+
+<option value="#00ff00">General Thunder</option>
+<option value="#ffff00">Marginal</option>
+<option value="#ff9900">Slight</option>
+<option value="#ff0000">Enhanced</option>
+<option value="#ff00ff">Moderate</option>
+<option value="#800080">High</option>
+
+</select>
+
+<input id="polygonLabel" placeholder="Label">
+
+<button onclick="finishPolygon()">Finish Polygon</button>
+<button onclick="undoPoint()">Undo</button>
+<button onclick="clearAll()">Clear</button>
+<button onclick="saveMapImage()">Save Image</button>
+
+</div>
+
+<div id="map"></div>
+
+<div class="legend">
+
+<div class="legend-item"><span class="level-box" style="background:#00ff00"></span>General</div>
+<div class="legend-item"><span class="level-box" style="background:#ffff00"></span>Marginal</div>
+<div class="legend-item"><span class="level-box" style="background:#ff9900"></span>Slight</div>
+<div class="legend-item"><span class="level-box" style="background:#ff0000"></span>Enhanced</div>
+<div class="legend-item"><span class="level-box" style="background:#ff00ff"></span>Moderate</div>
+<div class="legend-item"><span class="level-box" style="background:#800080"></span>High</div>
+
+</div>
+
+</article>
+
+</div>
+
+<script>
+
+const map = L.map('map').setView([39,-96],4);
+
+L.tileLayer(
+'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+{
+    subdomains:'abcd',
+    maxZoom:19,
+    attribution:'&copy; OpenStreetMap & CARTO'
+}
+).addTo(map);
+
+let currentPoints = [];
+let currentLine = null;
+let polygons = [];
+let markers = [];
+
+map.on('click', e => {
+
+    currentPoints.push([e.latlng.lat, e.latlng.lng]);
+
+    draw();
+});
+
+function draw(){
+
+    if(currentLine){
+        map.removeLayer(currentLine);
+    }
+
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+
+    currentPoints.forEach(p => {
+        const m = L.circleMarker(p,{
+            radius:5,
+            color:'#fff',
+            fillColor:'#fff',
+            fillOpacity:1
+        }).addTo(map);
+
+        markers.push(m);
+    });
+
+    if(currentPoints.length > 1){
+        currentLine = L.polyline(currentPoints,{
+            color:'white',
+            weight:3,
+            dashArray:'6,6'
+        }).addTo(map);
+    }
+}
+
+function finishPolygon(){
+
+    if(currentPoints.length < 3){
+        alert("Need at least 3 points");
+        return;
+    }
+
+    const color = document.getElementById('riskType').value;
+    const label = document.getElementById('polygonLabel').value;
+
+    const poly = L.polygon(currentPoints,{
+        color:color,
+        fillColor:color,
+        fillOpacity:0.35,
+        weight:3
+    }).addTo(map);
+
+    if(label){
+        poly.bindTooltip(label,{
+            permanent:true,
+            direction:'center',
+            className:'polygon-label'
+        }).openTooltip();
+    }
+
+    polygons.push(poly);
+
+    currentPoints = [];
+
+    if(currentLine){
+        map.removeLayer(currentLine);
+        currentLine = null;
+    }
+
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+
+    document.getElementById('polygonLabel').value = '';
+}
+
+function undoPoint(){
+    currentPoints.pop();
+    draw();
+}
+
+function clearAll(){
+
+    polygons.forEach(p => map.removeLayer(p));
+
+    polygons = [];
+    currentPoints = [];
+
+    if(currentLine){
+        map.removeLayer(currentLine);
+        currentLine = null;
+    }
+
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+}
+
+function saveMapImage(){
+
+    leafletImage(map, function(err, canvas){
+
+        if(err){
+            alert("Export failed");
+            return;
+        }
+
+        const link = document.createElement("a");
+        link.download = "mesoone-outlook.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    });
+}
+
+</script>
+
+</body>
+</html>
